@@ -1,9 +1,9 @@
-import { getCustomRepository, getRepository, In } from 'typeorm';
 import csvParse from 'csv-parse';
-import fs from 'fs';
+import * as fs from 'node:fs';
+import { getCustomRepository, getRepository, In } from 'typeorm';
 
-import Transaction from '../models/Transaction';
 import Category from '../models/Category';
+import Transaction from '../models/Transaction';
 import TransactionsRepository from '../repositories/TransactionsRepository';
 
 interface CSVTransaction {

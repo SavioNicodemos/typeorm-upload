@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  cors:
+    specifier: ^2.8.5
+    version: 2.8.5
   csv-parse:
     specifier: ^4.16.3
     version: 4.16.3
@@ -43,6 +46,9 @@ dependencies:
     version: 0.2.45(pg@8.11.3)(sqlite3@5.1.6)
 
 devDependencies:
+  '@types/cors':
+    specifier: ^2.8.17
+    version: 2.8.17
   '@types/express':
     specifier: 4.17.3
     version: 4.17.3
@@ -55,6 +61,9 @@ devDependencies:
   '@types/multer':
     specifier: ^1.4.9
     version: 1.4.11
+  '@types/node':
+    specifier: ^20.10.4
+    version: 20.10.4
   '@types/supertest':
     specifier: ^2.0.15
     version: 2.0.16
@@ -688,7 +697,7 @@ packages:
     resolution: {integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==}
     dependencies:
       '@types/connect': 3.4.33
-      '@types/node': 13.11.1
+      '@types/node': 20.10.4
     dev: true
 
   /@types/color-name@1.1.1:
@@ -697,11 +706,17 @@ packages:
   /@types/connect@3.4.33:
     resolution: {integrity: sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==}
     dependencies:
-      '@types/node': 13.11.1
+      '@types/node': 20.10.4
     dev: true
 
   /@types/cookiejar@2.1.1:
     resolution: {integrity: sha512-aRnpPa7ysx3aNW60hTiCtLHlQaIFsXFCgQlpakNgDNVFzbtusSY8PwjAQgRWfSk0ekNoBjO51eQRB6upA9uuyw==}
+    dev: true
+
+  /@types/cors@2.8.17:
+    resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
+    dependencies:
+      '@types/node': 20.10.4
     dev: true
 
   /@types/eslint-visitor-keys@1.0.0:
@@ -711,14 +726,14 @@ packages:
   /@types/express-serve-static-core@4.17.2:
     resolution: {integrity: sha512-El9yMpctM6tORDAiBwZVLMcxoTMcqqRO9dVyYcn7ycLWbvR8klrDn8CAOwRfZujZtWD7yS/mshTdz43jMOejbg==}
     dependencies:
-      '@types/node': 13.11.1
+      '@types/node': 20.10.4
       '@types/range-parser': 1.2.3
     dev: true
 
   /@types/express-serve-static-core@4.17.4:
     resolution: {integrity: sha512-dPs6CaRWxsfHbYDVU51VjEJaUJEcli4UI0fFMT4oWmgCvHj+j7oIxz5MLHVL0Rv++N004c21ylJNdWQvPkkb5w==}
     dependencies:
-      '@types/node': 13.11.1
+      '@types/node': 20.10.4
       '@types/range-parser': 1.2.3
     dev: true
 
@@ -742,7 +757,7 @@ packages:
   /@types/graceful-fs@4.1.9:
     resolution: {integrity: sha512-olP3sd1qOEe5dXTSaFvQG+02VdRXcdytWLAZsAq1PecU8uqQAhkrnbli7DagjtXKW/Bl7YJbUsa8MPcuc8LHEQ==}
     dependencies:
-      '@types/node': 13.11.1
+      '@types/node': 20.10.4
     dev: true
 
   /@types/istanbul-lib-coverage@2.0.1:
@@ -787,8 +802,10 @@ packages:
       '@types/express': 4.17.6
     dev: true
 
-  /@types/node@13.11.1:
-    resolution: {integrity: sha512-eWQGP3qtxwL8FGneRrC5DwrJLGN4/dH1clNTuLfN81HCrxVtxRjygDTUoZJ5ASlDEeo0ppYFQjQIlXhtXpOn6g==}
+  /@types/node@20.10.4:
+    resolution: {integrity: sha512-D08YG6rr8X90YB56tSIuBaddy/UXAA9RKJoFvrsnogAum/0pmjkgi4+2nx96A330FmioegBWmEYQ+syqCFaveg==}
+    dependencies:
+      undici-types: 5.26.5
     dev: true
 
   /@types/normalize-package-data@2.4.4:
@@ -830,7 +847,7 @@ packages:
     resolution: {integrity: sha512-JSwNPgRYjIC4pIeOqLwWwfGj6iP1n5NE6kNBEbGx2V8H78xCPwx7QpNp9plaI30+W3cFEzJO7BIIsXE+dbtaGg==}
     dependencies:
       '@types/cookiejar': 2.1.1
-      '@types/node': 13.11.1
+      '@types/node': 20.10.4
     dev: true
 
   /@types/supertest@2.0.16:
@@ -1770,6 +1787,14 @@ packages:
 
   /core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
+
+  /cors@2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
+    dev: false
 
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
@@ -6450,6 +6475,10 @@ packages:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+    dev: true
+
+  /undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
   /union-value@1.0.1:
