@@ -10,14 +10,16 @@ import routes from './routes';
 
 import { appDataSource } from './database';
 
-appDataSource
-  .initialize()
-  .then(() => {
-    console.log('Data Source has been initialized!');
-  })
-  .catch(err => {
-    console.error('Error during Data Source initialization:', err);
-  });
+if (process.env.NODE_ENV !== 'test') {
+  appDataSource
+    .initialize()
+    .then(() => {
+      console.log('Data Source has been initialized!');
+    })
+    .catch(err => {
+      console.error('Error during Data Source initialization:', err);
+    });
+}
 
 const app = express();
 

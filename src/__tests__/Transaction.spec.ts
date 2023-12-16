@@ -1,36 +1,25 @@
-import path from 'path';
 import request from 'supertest';
-import { Connection, getConnection, getRepository } from 'typeorm';
-// import createConnection from '../database';
+import { appDataSource } from '../database';
 
+import path from 'path';
+import app from '../app';
 import Category from '../models/Category';
 import Transaction from '../models/Transaction';
 
-import app from '../app';
-
-let connection: Connection;
-
 describe('Transaction', () => {
   beforeAll(async () => {
-    // connection = await createConnection('test-connection');
+    await appDataSource.initialize();
 
-    await connection.query('DROP TABLE IF EXISTS transactions');
-    await connection.query('DROP TABLE IF EXISTS categories');
-    await connection.query('DROP TABLE IF EXISTS migrations');
-
-    await connection.runMigrations();
+    await appDataSource.runMigrations();
   });
 
   beforeEach(async () => {
-    await connection.query('DELETE FROM transactions');
-    await connection.query('DELETE FROM categories');
+    await appDataSource.query('DELETE FROM transactions');
+    await appDataSource.query('DELETE FROM categories');
   });
 
   afterAll(async () => {
-    const mainConnection = getConnection();
-
-    await connection.close();
-    await mainConnection.close();
+    await appDataSource.destroy();
   });
 
   it('should be able to list transactions', async () => {
@@ -66,7 +55,7 @@ describe('Transaction', () => {
   });
 
   it('should be able to create new transaction', async () => {
-    const transactionsRepository = getRepository(Transaction);
+    const transactionsRepository = appDataSource.getRepository(Transaction);
 
     const response = await request(app).post('/transactions').send({
       title: 'March Salary',
@@ -91,8 +80,8 @@ describe('Transaction', () => {
   });
 
   it('should create tags when inserting new transactions', async () => {
-    const transactionsRepository = getRepository(Transaction);
-    const categoriesRepository = getRepository(Category);
+    const transactionsRepository = appDataSource.getRepository(Transaction);
+    const categoriesRepository = appDataSource.getRepository(Category);
 
     const response = await request(app).post('/transactions').send({
       title: 'March Salary',
@@ -126,8 +115,8 @@ describe('Transaction', () => {
   });
 
   it('should not create tags when they already exists', async () => {
-    const transactionsRepository = getRepository(Transaction);
-    const categoriesRepository = getRepository(Category);
+    const transactionsRepository = appDataSource.getRepository(Transaction);
+    const categoriesRepository = appDataSource.getRepository(Category);
 
     const { identifiers } = await categoriesRepository.insert({
       title: 'Salary',
@@ -180,7 +169,7 @@ describe('Transaction', () => {
   });
 
   it('should be able to delete a transaction', async () => {
-    const transactionsRepository = getRepository(Transaction);
+    const transactionsRepository = appDataSource.getRepository(Transaction);
 
     const response = await request(app).post('/transactions').send({
       title: 'March Salary',
@@ -191,14 +180,16 @@ describe('Transaction', () => {
 
     await request(app).delete(`/transactions/${response.body.id}`);
 
-    const transaction = await transactionsRepository.findOne(response.body.id);
+    const transaction = await transactionsRepository.findOne({
+      where: { id: response.body.id },
+    });
 
     expect(transaction).toBeFalsy();
   });
 
   it('should be able to import transactions', async () => {
-    const transactionsRepository = getRepository(Transaction);
-    const categoriesRepository = getRepository(Category);
+    const transactionsRepository = appDataSource.getRepository(Transaction);
+    const categoriesRepository = appDataSource.getRepository(Category);
 
     const importCSV = path.resolve(__dirname, 'import_template.csv');
 
