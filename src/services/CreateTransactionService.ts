@@ -1,10 +1,10 @@
-import { getCustomRepository, getRepository } from 'typeorm';
 import Category from '../models/Category';
 
 import AppError from '../errors/AppError';
 
+import { appDataSource } from '../database';
 import Transaction from '../models/Transaction';
-import TransactionsRepository from '../repositories/TransactionsRepository';
+import { transactionsRepository } from '../repositories/TransactionsRepository';
 
 interface Request {
   title: string;
@@ -19,8 +19,7 @@ class CreateTransactionService {
     type,
     category,
   }: Request): Promise<Transaction> {
-    const transactionsRepository = getCustomRepository(TransactionsRepository);
-    const categoriesRepository = getRepository(Category);
+    const categoriesRepository = appDataSource.getRepository(Category);
 
     if (type === 'outcome') {
       const { total } = await transactionsRepository.getBalance();
@@ -30,7 +29,9 @@ class CreateTransactionService {
       }
     }
 
-    const hasCategory = await categoriesRepository.findOne({ title: category });
+    const hasCategory = await categoriesRepository.findOne({
+      where: { title: category },
+    });
 
     if (!hasCategory) {
       const newCategory = categoriesRepository.create({
@@ -40,13 +41,15 @@ class CreateTransactionService {
       await categoriesRepository.save(newCategory);
     }
 
-    const getCategory = await categoriesRepository.findOne({ title: category });
+    const getCategory = await categoriesRepository.findOne({
+      where: { title: category },
+    });
 
     const transaction = transactionsRepository.create({
       title,
       value,
       type,
-      category: getCategory,
+      // category: getCategory,
     });
 
     await transactionsRepository.save(transaction);

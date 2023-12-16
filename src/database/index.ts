@@ -1,15 +1,9 @@
-import { createConnection, getConnectionOptions, Connection } from 'typeorm';
+import { DataSource } from 'typeorm';
 
-export default async (name = 'default'): Promise<Connection> => {
-  const defaultOptions = await getConnectionOptions();
-
-  return createConnection(
-    Object.assign(defaultOptions, {
-      name,
-      database:
-        process.env.NODE_ENV === 'test'
-          ? 'gostack_desafio06_tests'
-          : defaultOptions.database,
-    }),
-  );
-};
+export const appDataSource = new DataSource({
+  type: 'sqlite',
+  database: process.env.NODE_ENV === 'test' ? ':memory:' : 'database/db.sqlite',
+  entities: ['src/models/*.ts'],
+  logging: true,
+  synchronize: true,
+});

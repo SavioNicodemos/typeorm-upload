@@ -8,9 +8,17 @@ import cors from 'cors';
 import AppError from './errors/AppError';
 import routes from './routes';
 
-import createConnection from './database';
+import { appDataSource } from './database';
 
-createConnection();
+appDataSource
+  .initialize()
+  .then(() => {
+    console.log('Data Source has been initialized!');
+  })
+  .catch(err => {
+    console.error('Error during Data Source initialization:', err);
+  });
+
 const app = express();
 
 app.use(cors());

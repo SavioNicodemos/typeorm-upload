@@ -1,46 +1,44 @@
-import { EntityRepository, Repository } from 'typeorm';
-
+import { appDataSource } from '../database';
 import Transaction from '../models/Transaction';
 
-interface Balance {
+type Balance = {
   income: number;
   outcome: number;
   total: number;
-}
+};
 
-@EntityRepository(Transaction)
-class TransactionsRepository extends Repository<Transaction> {
-  public async getBalance(): Promise<Balance> {
-    const transactions = await this.find();
+export const transactionsRepository = appDataSource
+  .getRepository(Transaction)
+  .extend({
+    async getBalance(): Promise<Balance> {
+      const transactions = await this.find();
 
-    const { income, outcome } = transactions.reduce(
-      (accumulator, transaction) => {
-        switch (transaction.type) {
-          case 'income':
-            accumulator.income += Number(transaction.value);
-            break;
+      const { income, outcome } = transactions.reduce(
+        (accumulator, transaction) => {
+          switch (transaction.type) {
+            case 'income':
+              accumulator.income += Number(transaction.value);
+              break;
 
-          case 'outcome':
-            accumulator.outcome += Number(transaction.value);
-            break;
+            case 'outcome':
+              accumulator.outcome += Number(transaction.value);
+              break;
 
-          default:
-            break;
-        }
+            default:
+              break;
+          }
 
-        return accumulator;
-      },
-      {
-        income: 0,
-        outcome: 0,
-        total: 0,
-      },
-    );
+          return accumulator;
+        },
+        {
+          income: 0,
+          outcome: 0,
+          total: 0,
+        },
+      );
 
-    const total = income - outcome;
+      const total = income - outcome;
 
-    return { income, outcome, total };
-  }
-}
-
-export default TransactionsRepository;
+      return { income, outcome, total };
+    },
+  });

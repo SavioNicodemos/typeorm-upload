@@ -1,10 +1,11 @@
-import csvParse from 'csv-parse';
+import { parse as csvParse } from 'csv-parse';
 import * as fs from 'node:fs';
-import { getCustomRepository, getRepository, In } from 'typeorm';
+import { In } from 'typeorm';
 
+import { appDataSource } from '../database';
 import Category from '../models/Category';
 import Transaction from '../models/Transaction';
-import TransactionsRepository from '../repositories/TransactionsRepository';
+import { transactionsRepository } from '../repositories/TransactionsRepository';
 
 interface CSVTransaction {
   title: string;
@@ -15,8 +16,7 @@ interface CSVTransaction {
 
 class ImportTransactionsService {
   async execute(filePath: string): Promise<Transaction[]> {
-    const transactionsRepository = getCustomRepository(TransactionsRepository);
-    const categoriesRepository = getRepository(Category);
+    const categoriesRepository = appDataSource.getRepository(Category);
 
     const contactsReadStream = fs.createReadStream(filePath);
 
