@@ -6,12 +6,13 @@ import { appDataSource } from '../database';
 import Transaction from '../models/Transaction';
 import { transactionsRepository } from '../repositories/TransactionsRepository';
 
-interface Request {
+type Request = {
   title: string;
   value: number;
   type: 'income' | 'outcome';
   category: string;
-}
+};
+
 class CreateTransactionService {
   public async execute({
     title,
@@ -49,7 +50,7 @@ class CreateTransactionService {
       title,
       value,
       type,
-      // category: getCategory,
+      category: getCategory ?? undefined,
     });
 
     await transactionsRepository.save(transaction);
