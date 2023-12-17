@@ -14,9 +14,11 @@ if (process.env.NODE_ENV !== 'test') {
   appDataSource
     .initialize()
     .then(() => {
+      // eslint-disable-next-line no-console
       console.log('Data Source has been initialized!');
     })
     .catch(err => {
+      // eslint-disable-next-line no-console
       console.error('Error during Data Source initialization:', err);
     });
 }

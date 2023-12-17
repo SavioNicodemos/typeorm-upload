@@ -6,7 +6,8 @@ import {
 } from 'typeorm';
 
 export default class AddCategoryForeignKeyToTransactions1610507110934
-  implements MigrationInterface {
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       'transactions',

@@ -1,7 +1,7 @@
+import path from 'path';
 import request from 'supertest';
 import { appDataSource } from '../database';
 
-import path from 'path';
 import app from '../app';
 import Category from '../models/Category';
 import Transaction from '../models/Transaction';

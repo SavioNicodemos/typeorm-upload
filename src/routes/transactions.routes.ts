@@ -13,7 +13,6 @@ const upload = multer(uploadConfig);
 const transactionsRouter = Router();
 
 transactionsRouter.get('/', async (request, response) => {
-  console.log('transactionsRouter.get');
   const transactions = await transactionsRepository.find();
   const balance = await transactionsRepository.getBalance();
 
