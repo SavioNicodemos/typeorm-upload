@@ -13,7 +13,9 @@ const upload = multer(uploadConfig);
 const transactionsRouter = Router();
 
 transactionsRouter.get('/', async (request, response) => {
-  const transactions = await transactionsRepository.find();
+  const transactions = await transactionsRepository.find({
+    relations: ['category'],
+  });
   const balance = await transactionsRepository.getBalance();
 
   return response.json({ transactions, balance });
